@@ -53,7 +53,7 @@ transaction fees.
 ## Installation
 
  * Install the dependencies (sqlite3)
- * 
+
  * Install the gem:
 
 ```bash

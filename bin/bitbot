@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+require 'daemons'
+require 'yaml'
+
+require 'bitbot/bot'
+require 'bitbot/database'
+
+def usage
+  puts "Usage: #{File.basename($0)} {start|stop|run} <path to config.yml>"
+  exit 1
+end
+
+if ARGV.length < 2
+  usage()
+end
+
+config_file = File.expand_path(ARGV.pop)
+
+unless File.exist?(config_file)
+  usage()
+end
+
+config = YAML::load(File.open(config_file))
+unless File.exist?(File.dirname(config['data']['path']))
+  puts "Data directory does not exist: #{File.dirname(config['data']['path'])}"
+  exit 1
+end
+
+# Update the database file
+Bitbot::Database.new(File.join(config['data']['path'], "bitbot.db")).upgrade_schema()
+
+Daemons.run_proc('bitbot',
+                 :hard_exit => true,
+                 :backtrace => true,
+                 :ontop => false,
+                 :multiple => false,
+                 :monitor => true,
+                 :log_output => true) do
+
+  bot = Bitbot::Bot.new(config)
+
+  Thread.new do
+    loop do
+      begin
+        bot.update_exchange_rates()
+        bot.update_addresses()
+      rescue => e
+        puts "exception in loop addresses: #{e}"
+        puts e.backtrace
+      ensure
+        sleep 60
+      end
+    end
+  end
+
+  bot.start
+end
+

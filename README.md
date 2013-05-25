@@ -66,6 +66,12 @@ gem install bitbot
    probably also good to set up (encrypted) wallet backups to go to your
    email address.
 
+ * Create a data directory for Bitbot:
+
+```bash
+$ mkdir ~/.bitbot
+```
+
  * Create a config.yml file that looks like this:
 
 ```yaml
@@ -82,14 +88,15 @@ blockchain:
   password1: <password>
   password2: <secondary password>
 
-database:
-  path: <path to database>
+data:
+  path: /home/me/.bitbot
 ```
 
  * Start the bot:
 
 ```bash
-$ bitbot <path to config.yml> 
+$ bitbot start <path to config.yml> 
+```
 
 ## Usage
 

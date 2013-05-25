@@ -11,13 +11,13 @@ l33t hax0rs. This is just a toy. You probably shouldn't use it, and if
 you do, you shouldn't put much money into it. Here's why:
 
 Bitbot does not operate on nicknames, but usernames. Therefore, it's
-only secure on IRC networks where usernames are forced. This probably
-isn't true of whatever IRC network you're on. (On our IRC network,
+only secure on IRC networks where usernames are forced. *This probably
+isn't true of whatever IRC network you're on.* (On our IRC network,
 usernames cannot be spoofed.) In order to be secure, the bot would need
 to authenticate users in some other way, perhaps by using NickServ or
 something. Pull requests accepted.
 
-Bitbot uses an online wallet at https://blockchain.info . This was
+Bitbot uses an online wallet at https://blockchain.info. This was
 because it was the easiest path forward, but it is not the most secure.
 Blockchain.info itself seems reasonably secure, but if someone were to
 breach its servers, they would be able to steal all the coins stored by
@@ -31,9 +31,9 @@ vulnerability. If it does, an attacker can steal all the coins from
 Bitbot.
 
 Hopefully the above has scared you off from installing this and using it
-on Freenode. If it didn't, then you deserve to lost whatever you put in.
+on Freenode. If it didn't, then you deserve to lose whatever you put in.
 You could just send it to me directly instead:
-1zachsQ82fM7DC4HZQXMAAmkZ2Qg7pH2V.
+`1zachsQ82fM7DC4HZQXMAAmkZ2Qg7pH2V`.
 
 ## How Does It Work
 

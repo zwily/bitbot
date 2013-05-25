@@ -72,7 +72,7 @@ gem install bitbot
 $ mkdir ~/.bitbot
 ```
 
- * Create a config.yml file that looks like this:
+ * Create a bitbot.yml file that looks like this:
 
 ```yaml
 irc:

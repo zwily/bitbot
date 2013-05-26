@@ -78,7 +78,7 @@ module Bitbot
       from = from.to_i
 
       stats = {}
-      
+
       stats[:total_tipped] = @db.get_first_value("select coalesce(sum(amount), 0) from transactions t where t.other_user_id is not null and t.user_id <> t.other_user_id and t.amount < 0 and t.created_at > ?", [ from ])
       stats[:total_tips] = @db.get_first_value("select count(*) from transactions t where t.other_user_id is not null and t.user_id <> t.other_user_id and t.amount < 0 and t.created_at > ?", [ from ])
       stats[:tippers] = @db.execute("select * from (select username, sum(amount) total from transactions t, users u where t.user_id = u.id and other_user_id is not null and amount < 0 and user_id <> other_user_id and t.created_at >= ? group by username) foo order by total asc", [ from ])

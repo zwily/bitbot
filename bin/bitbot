@@ -3,8 +3,7 @@
 require 'daemons'
 require 'yaml'
 
-require 'bitbot/bot'
-require 'bitbot/database'
+require 'bitbot/plugin'
 
 def usage
   puts "Usage: #{File.basename($0)} {start|stop|run} <path to config.yml>"
@@ -27,9 +26,6 @@ unless File.exist?(File.dirname(config['data']['path']))
   exit 1
 end
 
-# Update the database file
-Bitbot::Database.new(File.join(config['data']['path'], "bitbot.db")).upgrade_schema()
-
 Daemons.run_proc('bitbot',
                  :hard_exit => true,
                  :backtrace => true,
@@ -38,19 +34,19 @@ Daemons.run_proc('bitbot',
                  :monitor => true,
                  :log_output => true) do
 
-  bot = Bitbot::Bot.new(config)
+  bot = Cinch::Bot.new do
+    configure do |c|
+      c.server   = config['irc']['server']
+      c.port     = config['irc']['port']
+      c.ssl.use  = config['irc']['ssl']
+      c.channels = config['irc']['channels']
+      c.nick     = config['irc']['nick'] || 'bitbot'
+      c.user     = config['irc']['username'] || 'bitbot'
+      c.password = config['irc']['password']
+      c.verbose  = config['irc']['verbose']
 
-  Thread.new do
-    loop do
-      begin
-        bot.update_exchange_rates()
-        bot.update_addresses()
-      rescue => e
-        puts "exception in loop addresses: #{e}"
-        puts e.backtrace
-      ensure
-        sleep 60
-      end
+      c.plugins.plugins = [Bitbot::Plugin]
+      c.plugins.options[Bitbot::Plugin] = config
     end
   end
 

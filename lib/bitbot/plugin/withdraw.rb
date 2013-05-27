@@ -12,15 +12,14 @@ module Bitbot::Withdraw
       # don't want to roll back the transaction if the blockchain update
       # *appears* to fail. It might look like it failed, but really
       # succeed, letting someone withdraw money twice.
-      # TODO: don't hardcode fee
       begin
-        db.create_transaction_from_withdrawal(user_id, satoshi, 50000, address)
+        db.create_transaction_from_withdrawal(user_id, satoshi, withdrawal_fee, address)
       rescue Bitbot::InsufficientFundsError
         m.reply "You don't have enough to withdraw #{satoshi_to_str(satoshi)} + 0.0005 fee"
         return
       end
 
-      response = blockchain.create_payment(address, satoshi, 50000)
+      response = blockchain.create_payment(address, satoshi, withdrawal_fee)
       if response["tx_hash"]
         m.reply "Sent #{satoshi_with_usd(satoshi)} to #{address.irc(:bold)} " +
           "in transaction #{response["tx_hash"].irc(:grey)}."
@@ -30,7 +29,7 @@ module Bitbot::Withdraw
       end
     else
       m.reply "Usage: withdraw <amount in BTC> <address>"
-      m.reply "0.0005 BTC will also be withdrawn for the transaction fee."
+      m.reply "#{satoshi_to_str(withdrawal_fee)} BTC will also be withdrawn for the transaction fee."
     end
   end
 end

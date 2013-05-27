@@ -87,6 +87,7 @@ blockchain:
   wallet_id: <long guid>
   password1: <password>
   password2: <secondary password>
+  withdrawal_fee: <fee in satoshi, default: 50000>
 
 data:
   path: /home/me/.bitbot

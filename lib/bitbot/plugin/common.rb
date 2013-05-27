@@ -24,6 +24,10 @@ module Bitbot::Common
     @cached_exchange_rates = new
   end
 
+  def withdrawal_fee
+    config['blockchain']['withdrawal_fee'] || 50000
+  end
+
   #
   # Returns a database handle for use in the current thread.
   #

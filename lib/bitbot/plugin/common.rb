@@ -59,6 +59,15 @@ module Bitbot::Common
   end
 
   #
+  # Takes a string, and returns an int with number of satoshi.
+  # Eventually this could be smart enough to handle specified units too,
+  # rather than just assuming BTC every time.
+  #
+  def str_to_satoshi(str)
+    (str.to_f * 10**8).to_i
+  end
+
+  #
   # Some number formatting helpers
   #
   def satoshi_to_str(satoshi)

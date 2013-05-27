@@ -14,7 +14,7 @@ module Bitbot::Tip
     recipient_user_id = db.get_or_create_user_id_for_username(recipient_ircuser.user)
 
     # Convert amount to satoshi
-    satoshi = (amount.to_f * 10**8).to_i
+    satoshi = str_to_satoshi(amount)
     if satoshi <= 0
       m.user.msg("Cannot send a negative amount.")
       return

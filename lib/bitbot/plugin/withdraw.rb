@@ -1,11 +1,10 @@
 module Bitbot::Withdraw
   def on_withdraw(m, args)
     if args =~ /\s+([\d.]+)\s+([13][0-9a-zA-Z]{26,35})/
-      amount = $1.to_f
+      satoshi = str_to_satoshi($1)
       address = $2
 
       user_id = db.get_or_create_user_id_for_username(m.user.user)
-      satoshi = (amount * 10**8).to_i
 
       # Perform the local transaction in the database. Note that we
       # don't do the blockchain update in the transaction, because we

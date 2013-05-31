@@ -26,7 +26,7 @@ unless File.exist?(File.dirname(config['data']['path']))
   exit 1
 end
 
-Daemons.run_proc('bitbot',
+Daemons.run_proc(config['daemon_name'] || 'bitbot',
                  :hard_exit => true,
                  :backtrace => true,
                  :ontop => false,

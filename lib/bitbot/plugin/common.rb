@@ -64,7 +64,9 @@ module Bitbot::Common
   # rather than just assuming BTC every time.
   #
   def str_to_satoshi(str)
-    (str.to_f * 10**8).to_i
+    val = str.to_f
+    val = val / 10**3 if str.to_s.end_with?('m')
+    (val * 10**8).to_i
   end
 
   #

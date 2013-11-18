@@ -47,7 +47,7 @@ class Bitbot::Plugin
   # Channel messages
   #
   match /^\+tipstats$/, :method => :on_tipstats, :react_on => :channel
-  match /^\+tip\s+(\w+)\s+([\d.]+)\s+?(.*)/, :method => :on_tip, :react_on => :channel
+  match /^\+tip\s+(\w+)\s+([\d.]+m?)\s+?(.*)/, :method => :on_tip, :react_on => :channel
 
   #
   # Timer jobs
